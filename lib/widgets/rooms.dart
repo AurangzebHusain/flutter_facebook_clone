@@ -11,25 +11,33 @@ class Rooms extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      height: 60.0,
-      child: ListView.builder(
-        padding: EdgeInsets.all(10.0),
-        scrollDirection: Axis.horizontal,
-        itemCount: 1 + this.onlineUsers.length,
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0), child: _CreateRoomButton());
-          }
-          final User user = onlineUsers[index-1];
-          return Container(
-              padding: const EdgeInsets.all(4.0),
+    final bool isDesktop=Responsive.isDesktop(context);
+    print(isDesktop);
+    return Card(
+      margin:EdgeInsets.symmetric(horizontal: isDesktop?5.0:0.0),
+      elevation: isDesktop?1.0:0.0,
+      shape: isDesktop? RoundedRectangleBorder(borderRadius:BorderRadius.circular(12.0)):null,
 
-            child: ProfileAvatar(imageUrl:user.imageUrl),
-          );
-        },
+      child: Container(
+        color: Colors.white,
+        height: 60.0,
+        child: ListView.builder(
+          padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 4.0),
+          scrollDirection: Axis.horizontal,
+          itemCount: 1 + this.onlineUsers.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0), child: _CreateRoomButton());
+            }
+            final User user = onlineUsers[index-1];
+            return Container(
+                padding: const EdgeInsets.all(4.0),
+
+              child: ProfileAvatar(imageUrl:user.imageUrl),
+            );
+          },
+        ),
       ),
     );
   }
